@@ -18,6 +18,8 @@ public class CustomerController {
 
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private CustomerService customerService;
 
     @PostMapping
     public ResponseEntity<String> saveCustomer(@RequestBody Customer customer) {
@@ -41,10 +43,49 @@ public class CustomerController {
         }
     }
 
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCustomer(@PathVariable String id) {
 
         customerRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("Customer with id " + id + " has been deleted");
     }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Customer> putCustomerById(@PathVariable String id, @RequestBody Customer updatedCustomer) {
+        Optional<Customer> existingCustomerOptional = customerRepository.findById(id);
+
+        if (existingCustomerOptional.isPresent()) {
+            Customer existingCustomer = existingCustomerOptional.get();
+
+            // Update data pelanggan dengan data yang baru
+            if (updatedCustomer.getUsername() != null) {
+                existingCustomer.setUsername(updatedCustomer.getUsername());
+            }
+            if (updatedCustomer.getEmail() != null) {
+                existingCustomer.setEmail(updatedCustomer.getEmail());
+            }
+            if (updatedCustomer.getAddress() != null) {
+                existingCustomer.setAddress(updatedCustomer.getAddress());
+            }
+            if (updatedCustomer.getPhoneNumber() != null) {
+                existingCustomer.setPhoneNumber(updatedCustomer.getPhoneNumber());
+            }
+            if (updatedCustomer.getRiwayat() != null) {
+                existingCustomer.getRiwayat().addAll(updatedCustomer.getRiwayat());
+            }
+            System.out.println(existingCustomer.getRiwayat());
+
+            customerRepository.save(existingCustomer);
+
+            return ResponseEntity.ok(existingCustomer);
+        } else {
+            // Pelanggan dengan ID yang diberikan tidak ditemukan
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }

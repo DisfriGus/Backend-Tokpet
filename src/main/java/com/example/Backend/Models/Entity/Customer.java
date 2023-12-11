@@ -4,6 +4,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "customer")
 public class Customer {
 
@@ -14,6 +16,17 @@ public class Customer {
     private String email;
     private String address;
     private String phoneNumber;
+
+    private String customerToken;
+    private List<List<Object>> riwayat;
+
+    public List<List<Object>> getRiwayat() {
+        return riwayat;
+    }
+
+    public void setRiwayat(List<List<Object>> riwayat) {
+        this.riwayat = riwayat;
+    }
 
     public Customer() {
         // Konstruktor default kosong diperlukan oleh Jackson
@@ -65,5 +78,12 @@ public class Customer {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+    public String getCustomerToken() {
+        return customerToken;
+    }
+
+    public void setCustomerToken(String customerToken) {
+        this.customerToken = customerToken;
     }
 }

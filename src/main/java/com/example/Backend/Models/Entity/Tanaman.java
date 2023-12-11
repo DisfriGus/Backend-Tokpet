@@ -17,7 +17,16 @@ public class Tanaman {
     private String Title;
     private  String Harga;
     private  String URL;
+    private Integer Jumlah;
     private String[] Category;
+
+    public Integer getJumlah() {
+        return Jumlah;
+    }
+
+    public void setJumlah(Integer jumlah) {
+        Jumlah = jumlah;
+    }
 
     public String getId() {
         return id;
